@@ -80,7 +80,7 @@
 				</grammar>
 				<request>
 					<identifier>active:templateMapper</identifier>
-					<argument name="domain">sbalbs</argument>
+					<argument name="domain">arg:domain</argument>
 				</request>
    			</endpoint>
    		</config>
