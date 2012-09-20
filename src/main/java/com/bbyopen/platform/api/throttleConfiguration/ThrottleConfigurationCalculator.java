@@ -10,6 +10,7 @@ public class ThrottleConfigurationCalculator extends StandardAccessorImpl{
 		this.declareThreadSafe();
 	}
 	
+	// comments here
 	@Override
 	public void onSource(INKFRequestContext context) throws Exception{
 		HDSBuilder builder = new HDSBuilder();
