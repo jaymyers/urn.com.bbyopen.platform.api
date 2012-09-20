@@ -58,7 +58,7 @@
 						<regex>(products|reviews|stores|categories)</regex>
 					</group>
 					<optional>/</optional>
-					<choice>
+					<choice name="method">
 						<group name="singledomain">
 							<regex>(\d{1,16})\.(xml|json)</regex>
 						</group>
@@ -81,6 +81,8 @@
 				<request>
 					<identifier>active:templateMapper</identifier>
 					<argument name="domain">arg:domain</argument>
+					<argument name="method">arg:method</argument>
+					
 				</request>
    			</endpoint>
    		</config>
