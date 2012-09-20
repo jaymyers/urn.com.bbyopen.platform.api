@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+	<book>
+		<id>book:urn:com:bbyopen:channel:api</id>
+		<title>BBY Open V2 API Module</title>
+		<desc>Module for the API</desc>
+		<toc>
+			<item id="urn:com:bbyopen:channel:api:guide"/>
+			<item id="urn:com:bbyopen:channel:api:example"/>
+		</toc>
+	</book>
+</books>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="2.0">
+   <meta>
+      <identity>
+         <uri>urn:com:bbyopen:platform:api</uri>
+         <version>1.0.0</version>
+      </identity>
+      <info>
+         <name>BBY Open V2 API Module</name>
+         <description>Module for the API</description>
+         <icon>res:/BBY_Open_V2_API_Module/pub/icon.png</icon>
+      </info>
+   </meta>
+   <system>
+      <dynamic/>
+   </system>
+   <!-- core rootspace -->
+   <rootspace name="BBY Open V2 API Module - Development Space" uri="urn:com:bbyopen:platform:api">
+      <fileset>
+         <regex>res:/etc/system/SimpleDynamicImportHook.xml</regex>
+      </fileset>
+      <overlay>
+      	<prototype>layer1.Concurrency.Throttle</prototype>
+      	<config>active:throttleConfiguration</config>
+      	<space>
+      		<import>
+      			<uri>urn:com:bbyopen:platform:api:mapper</uri>
+      		</import>
+      	</space>
+      </overlay>
+      <import>
+		<uri>urn:org:netkernel:ext:layer1</uri>
+	  </import>
+	  <import>
+	  	<uri>urn:com:bbyopen:platform:api:throttleConfiguration</uri>
+	  </import>
+   </rootspace>
+   
+   <!-- throttle config -->
+   <rootspace name="BBY Open V2 API Module - Throttle Configuration Mapper Space" uri="urn:com:bbyopen:platform:api:throttleConfiguration">
+   	<accessor>
+   		<grammar>
+   			<active>
+   				<identifier>active:throttleConfiguration</identifier>
+   			</active>
+   		</grammar>
+   		<class>com.bbyopen.platform.api.throttleConfiguration.ThrottleConfigurationCalculator</class>
+   	</accessor>
+   </rootspace>
+   
+   <!-- uri solution mapping -->
+   <rootspace name="BBY Open V2 API Module - Template Mapper Space" uri="urn:com:bbyopen:platform:api:mapper">
+   	<mapper>
+   		<config>
+   			<endpoint>
+   				<grammar>res:/v2/
+					<group name="domain">
+						<regex>(products|reviews|stores|categories)</regex>
+					</group>
+					<optional>/</optional>
+					<choice>
+						<group name="singledomain">
+							<regex>(\d{1,16})\.(xml|json)</regex>
+						</group>
+						<group name="singlecategory">
+							<regex>(\D{1,5}\d{1,6})\.(xml|json)</regex>
+						</group>
+					</choice>
+					<optional>
+						<group name="arguments">
+						?
+							<group name="argument" min="1" max="*">
+								<optional>&amp;</optional>
+							<group name="arg"><regex type="alphanum"/></group>
+							=
+							<group name="value"><regex type="alphanum"/></group>
+							</group>
+						</group>
+					</optional>
+				</grammar>
+   			</endpoint>
+   		</config>
+   	</mapper>
+   </rootspace>
+   
+   <rootspace name="BBY Open V2 API Module - Documentation Space" public="true" uri="urn:com:bbyopen:platform:api:doc">
+      <fileset>
+         <regex>res:/etc/system/(Books|Docs).xml</regex>
+      </fileset>
+      <fileset>
+         <regex>res:/resources/doc/.*</regex>
+      </fileset>
+   </rootspace>
+   <rootspace name="BBY Open V2 API Module - Unit Test Space" public="true" uri="urn:com:bbyopen:platform:api:test">
+      <fileset>
+         <regex>res:/etc/system/Tests.xml</regex>
+      </fileset>
+      <fileset>
+         <regex>res:/resources/test/.*</regex>
+      </fileset>
+      <endpoint><!-- stop any configuration from module under test from polluting address space -->
+         <prototype>Limiter</prototype>
+         <grammar>res:/etc/
+            <regex type="anything"/>
+         </grammar>
+      </endpoint>
+      <import><!-- import the main space which we are testing -->
+         <uri>urn:com:bbyopen:platform:api</uri>
+      </import>
+      <import>
+         <uri>urn:org:netkernel:ext:layer1</uri>
+         <private/>
+      </import>
+   </rootspace>
+</module>
